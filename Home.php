@@ -20,6 +20,7 @@
       echo '<th>Name</th>';
       echo '<th>Email</th>';
       echo '<th>View</th>';
+      echo '<th>Delete</th>';
       echo '</tr>';
       while ($row_teacher = mysqli_fetch_assoc($result_teacher)) {
           echo '<tr>';
@@ -27,6 +28,7 @@
           echo '<td class="font-teacher">' . $row_teacher['name'] . '</td>';
           echo '<td class="font-teacher">' . $row_teacher['email'] . '</td>';
           echo '<td><a href="http://localhost/thi/view.php?id=' . $row_teacher['id'] . '">View</a></td>';
+          echo '<td><button onclick="deleteAccount(' . $row_teacher['id'] . ')">Delete</button></td>';
           echo '</tr>';
       }
       echo '</table>';
@@ -70,4 +72,22 @@
   }
   // Add event listener to the search input
   document.getElementById('search-teacher').addEventListener('keyup', search);
+
+  function deleteAccount(id) {
+    // Confirm the deletion
+    var confirmDelete = confirm("Are you sure you want to delete this account?");
+    if (confirmDelete) {
+      // Send an AJAX request to delete the account
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', './delete.php');
+      xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+          // Refresh the page to update the account list
+          window.location.reload();
+        }
+      };
+      xhr.send('id=' + id);
+    }
+  }
 </script>
