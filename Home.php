@@ -2,15 +2,49 @@
      <label>Search</label>
      <input type="search" id="search-teacher" class="search-teach" name="search-teacher">
      <input type="submit" value="Search">
+     <input type="hidden" name="sort" value="<?php echo isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'desc' : 'asc'; ?>">
+     <input type="submit" name="sort-asc" value="&#x25BC">
+     <input type="submit" name="sort-desc" value="&#x25B2">
 </form>
+
+
+
+<form action="./add.php" method="POST">
+    <input type="text" name="username" >
+    <input type="email" name="email" >
+    <input type="password" name="password">
+    <input type="tel" name="phone">
+    <input type="text" name="address" >
+    <select type="type" name="type">
+        <option value="Administration" name="Administration">Administration</option>
+        <option value="student" name="student">student</option>
+        <option value="teacher"name="teacher">teacher</option>
+
+    </select>
+    <button type="submit">ADD</button>
+</form>
+
+
+
 <?php
   include __DIR__ . './models/ConnectSql.php';
   
   // Retrieve the search query from the GET parameters
   $search = isset($_GET['search-teacher']) ? $_GET['search-teacher'] : '';
 
-  // Construct the SQL query with search conditions
+  // Retrieve the sort order from the GET parameters
+  $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+
+  // Construct the SQL query with search and sort conditions
   $sql_teacher = "SELECT * FROM teacher WHERE name LIKE '%$search%' OR email LIKE '%$search%'";
+
+  // Append the sort order to the SQL query if provided
+  if ($sort === 'asc') {
+    $sql_teacher .= " ORDER BY name ASC";
+  } elseif ($sort === 'desc') {
+    $sql_teacher .= " ORDER BY name DESC";
+  }
+
   $result_teacher = mysqli_query($conn, $sql_teacher);
 
   if (mysqli_num_rows($result_teacher) > 0) {
@@ -28,13 +62,17 @@
           echo '<td class="font-teacher">' . $row_teacher['name'] . '</td>';
           echo '<td class="font-teacher">' . $row_teacher['email'] . '</td>';
           echo '<td><a href="http://localhost/thi/view.php?id=' . $row_teacher['id'] . '">View</a></td>';
+          echo '<td><a href="http://localhost/thi/Edit.php?id=' . $row_teacher['id'] . '">EDIT</a></td>';
           echo '<td><button onclick="deleteAccount(' . $row_teacher['id'] . ')">Delete</button></td>';
           echo '</tr>';
+          
       }
       echo '</table>';
+      
+  } else {
+    echo 'Không tìm thấy thông tin.';
   }
 ?>
-
 <style>
      .teacher-table {
           width: 100%;
@@ -51,7 +89,6 @@
           text-decoration: none;
      }
 </style>
-
 
 <script>
   function search() {
