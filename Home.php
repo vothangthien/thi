@@ -11,24 +11,24 @@
     <label>Search</label>
     <input type="search" id="search-teacher" class="search-teach" name="search-teacher">
     <input type="submit" value="Search">
-
 </form>
 
-<form >
+<form action="" method="GET">
     <input type="hidden" name="sort" value="<?= isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'desc' : 'asc'; ?>">
-        <input type="submit" name="sort-asc" value="&#x25BC">
-        <input type="submit" name="sort-desc" value="&#x25B2">
-        <?php
-      $search = isset($_GET['search-teacher']) ? $_GET['search-teacher'] : '';
-      $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
-      $sql_teacher = "SELECT * FROM teacher WHERE name LIKE '%$search%' OR email LIKE '%$search%'";
-      if ($sort === 'asc') {
-          $sql_teacher .= " ORDER BY name ASC";
-      } elseif ($sort === 'desc') {
-          $sql_teacher .= " ORDER BY name DESC";
-      }
-        ?>
+    <input type="submit" name="sort-asc" value="&#x25BC">
+    <input type="submit" name="sort-desc" value="&#x25B2">
+    <?php
+        $search = isset($_GET['search-teacher']) ? $_GET['search-teacher'] : '';
+        $sort = isset($_GET['sort']) ? $_GET['sort'] : '';
+        $sql_teacher = "SELECT * FROM teacher WHERE name LIKE '%$search%' OR email LIKE '%$search%'";
+        if ($sort === 'asc') {
+            $sql_teacher .= " ORDER BY name ASC";
+        } elseif ($sort === 'desc') {
+            $sql_teacher .= " ORDER BY name DESC";
+        }
+    ?>
 </form>
+
 <form action="./add.php" method="POST">
     <input type="text" name="username">
     <input type="email" name="email">
@@ -42,13 +42,13 @@
     </select>
     <button type="submit">ADD</button>
 </form>
+
 <button onclick="exitPage()">Exit</button>
 
 <?php
-include __DIR__ . './models/ConnectSql.php';
+include __DIR__ . '/models/ConnectSql.php';
 
-
-$result_teacher = mysqli_query($conn,"SELECT *from teacher ");
+$result_teacher = mysqli_query($conn, $sql_teacher);
 
 if (mysqli_num_rows($result_teacher) > 0) {
     echo '<table class="teacher-table">';
@@ -75,6 +75,7 @@ if (mysqli_num_rows($result_teacher) > 0) {
     echo 'Không tìm thấy thông tin.';
 }
 ?>
+
 <style>
     .teacher-table {
         width: 100%;
@@ -101,8 +102,8 @@ if (mysqli_num_rows($result_teacher) > 0) {
         var input = document.getElementById('search-teacher').value.toLowerCase();
         var rows = document.getElementsByClassName('teacher-table')[0].getElementsByTagName('tr');
         for (var i = 1; i < rows.length; i++) {
-            var name = rows[i].getElementsByTagName('td')[0].textContent.toLowerCase();
-            var email = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+            var name = rows[i].getElementsByTagName('td')[1].textContent.toLowerCase();
+            var email = rows[i].getElementsByTagName('td')[2].textContent.toLowerCase();
             if (name.indexOf(input) > -1 || email.indexOf(input) > -1) {
                 rows[i].style.display = '';
             } else {
@@ -113,11 +114,13 @@ if (mysqli_num_rows($result_teacher) > 0) {
 
     document.getElementById('search-teacher').addEventListener('keyup', search);
 </script>
+
 <script>
-function exitPage() {
-    // Redirect the user to the desired page or simply close the current window/tab
-    window.location.href = "http://localhost/thi/Account/SigNin.php";
-}
+    function exitPage() {
+        // Redirect the user to the desired page or simply close the current window/tab
+        window.location.href = "http://localhost/thi/Account/SigNin.php";
+    }
 </script>
+
 </body>
 </html>
