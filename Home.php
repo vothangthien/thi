@@ -42,6 +42,7 @@
     </select>
     <button type="submit">ADD</button>
 </form>
+<button onclick="exitPage()">Exit</button>
 
 <?php
 include __DIR__ . './models/ConnectSql.php';
@@ -112,6 +113,11 @@ if (mysqli_num_rows($result_teacher) > 0) {
 
     document.getElementById('search-teacher').addEventListener('keyup', search);
 </script>
-
+<script>
+function exitPage() {
+    // Redirect the user to the desired page or simply close the current window/tab
+    window.location.href = "http://localhost/thi/Account/SigNin.php";
+}
+</script>
 </body>
 </html>
