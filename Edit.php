@@ -14,6 +14,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql_update = "UPDATE teacher SET name='$username', email='$email', password='$password', phone='$phone', address='$address' WHERE id=$teacher_id";
     if (mysqli_query($conn, $sql_update)) {
         echo "Thông tin giáo viên đã được cập nhật thành công.";
+        header("localhost:./Home.php");
+        exit();
     } else {
         echo "Lỗi khi cập nhật thông tin giáo viên: " . mysqli_error($conn);
     }

@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $sql_insert = "INSERT INTO teacher (name, email, password, phone, address, type) VALUES ('$username', '$email', '$password', '$phone', '$address', '$type')";
     if (mysqli_query($conn, $sql_insert)) {
-     echo "Thông tin giáo viên đã được thêm thành công.";
-
+        echo "Thông tin giáo viên đã được thêm thành công.";
+header("localhost:http://localhost/thi/Home.php");
     } else {
         echo "Lỗi khi thêm thông tin giáo viên: " . mysqli_error($conn);
     }

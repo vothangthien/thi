@@ -2,8 +2,8 @@
 include __DIR__ . './models/ConnectSql.php';
 
 // Check if the ID parameter is provided
-if(isset($_POST['id'])) {
-    $id = $_POST['id'];
+if(isset($_GET['id'])) {
+    $id = $_GET['id'];
     
     // Delete the account from the database
     $sql_delete = "DELETE FROM teacher WHERE id = '$id'";
@@ -12,6 +12,8 @@ if(isset($_POST['id'])) {
     if ($result_delete) {
         // Account successfully deleted
         echo "Account deleted successfully";
+        header("localhost:./Home.php");
+        exit();
     } else {
         // Failed to delete the account
         echo "Failed to delete the account";
