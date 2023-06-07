@@ -1,6 +1,5 @@
 <?php
 include __DIR__ . './models/ConnectSql.php';
-
 // Check if the ID parameter is provided
 if(isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -12,7 +11,7 @@ if(isset($_GET['id'])) {
     if ($result_delete) {
         // Account successfully deleted
         echo "Account deleted successfully";
-        header("localhost:./Home.php");
+        header("Location: http://localhost/thi/Home.php");
         exit();
     } else {
         // Failed to delete the account

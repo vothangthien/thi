@@ -7,12 +7,13 @@
   <title>HOME</title>
 </head>
 <body>
+    <!-- tìm kiếm -->
 <form action="" method="GET">
     <label>Search</label>
     <input type="search" id="search-teacher" class="search-teach" name="search-teacher">
     <input type="submit" value="Search">
 </form>
-
+<!--  sử lý tìm kiếm và xấp sếp -->
 <form action="" method="GET">
     <input type="hidden" name="sort" value="<?= isset($_GET['sort']) && $_GET['sort'] === 'asc' ? 'desc' : 'asc'; ?>">
     <input type="submit" name="sort-asc" value="&#x25BC">
@@ -28,7 +29,7 @@
         }
     ?>
 </form>
-
+<!-- add account -->
 <form action="./add.php" method="POST">
     <input type="text" name="username">
     <input type="email" name="email">
@@ -36,15 +37,16 @@
     <input type="tel" name="phone">
     <input type="text" name="address">
     <select name="type">
+    <option value="teacher">teacher</option>
         <option value="Administration">Administration</option>
         <option value="student">student</option>
-        <option value="teacher">teacher</option>
     </select>
     <button type="submit">ADD</button>
 </form>
 
 <button onclick="exitPage()">Exit</button>
 
+<!-- hiển thị thông tin -->
 <?php
 include __DIR__ . '/models/ConnectSql.php';
 
@@ -96,7 +98,7 @@ if (mysqli_num_rows($result_teacher) > 0) {
         text-decoration: none;
     }
 </style>
-
+<!--Chức năng tìm kiếm  -->
 <script>
     function search() {
         var input = document.getElementById('search-teacher').value.toLowerCase();
@@ -115,9 +117,10 @@ if (mysqli_num_rows($result_teacher) > 0) {
     document.getElementById('search-teacher').addEventListener('keyup', search);
 </script>
 
+
+<!-- Nút Thoát -->
 <script>
     function exitPage() {
-        // Redirect the user to the desired page or simply close the current window/tab
         window.location.href = "http://localhost/thi/Account/SigNin.php";
     }
 </script>

@@ -12,7 +12,7 @@
  $page=isset($_GET['page']) ? $_GET['page'] :"Trang chủ";
      switch($page){
           default:
-          include __DIR__ . './Home.php';
+          include __DIR__ . './thi/Home.php';
           break;
      }
 
